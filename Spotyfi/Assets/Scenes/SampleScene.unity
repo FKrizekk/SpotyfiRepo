@@ -2374,6 +2374,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3035ec304c334684698c9149dd52aa77, type: 3}
   - {fileID: 21300000, guid: 6eb27e376e6d70242b74e231c789a99a, type: 3}
   - {fileID: 21300000, guid: cc453e15cc7250643a120d844b8ab24f, type: 3}
+  pauseSprites:
+  - {fileID: 21300000, guid: affe29b2c18d0ca4da3e73bfc5bbfb87, type: 3}
+  - {fileID: 21300000, guid: 2ce55e1b996462d49b09db35854cf671, type: 3}
+  pauseImage: {fileID: 1317138597}
   volumeImage: {fileID: 1651536281}
   volumeSlider: {fileID: 1819883076}
   progressBar: {fileID: 645009157}

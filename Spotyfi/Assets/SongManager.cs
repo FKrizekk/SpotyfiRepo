@@ -22,6 +22,8 @@ public class SongManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Sprite[] volumeSprites;
+    [SerializeField] private Sprite[] pauseSprites;
+    [SerializeField] private Image pauseImage;
     [SerializeField] private Image volumeImage;
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private Slider progressBar;
@@ -44,6 +46,8 @@ public class SongManager : MonoBehaviour
         {
             volumeImage.sprite = volumeSprites[0];
         }
+        //Update the pauseImage based on if source is playing
+        pauseImage.sprite = audioSource.isPlaying ? pauseSprites[0] : pauseSprites[1];
 
         //Set source volume to volumeSlider value
         audioSource.volume = volumeSlider.value;
@@ -51,6 +55,11 @@ public class SongManager : MonoBehaviour
         //Update currentTimeText & progressSlider
         currentTimeText.text = $"{Mathf.FloorToInt(audioSource.time / 60f).ToString()}:{(((int)(audioSource.time%60)).ToString().Length == 1 ? ("0" + (int)(audioSource.time%60)) : (int)(audioSource.time%60))}";
         progressBar.value = audioSource.time/audioSource.clip.length;
+
+        if (audioSource.timeSamples == audioSource.clip.samples)
+        {
+            NextTrack();
+        }
     }
 
     public void UpdateProgress()
@@ -111,12 +120,10 @@ public class SongManager : MonoBehaviour
     void UpdateTrack()
     {
         audioSource.Stop();
+        audioSource.time = 0;
         audioSource.clip = clips[currentSongIndex];
         artistNameText.text = files[currentSongIndex].Split(" - ")[0].Remove(0, files[currentSongIndex].Split(" - ")[0].LastIndexOf('\\') + 1);
-        if(Regex.Matches(files[currentSongIndex], " - ").Count == 2)
-            songNameText.text = files[currentSongIndex].Split(" - ")[1] + files[currentSongIndex].Split(" - ")[2].TrimEnd(".ogg");
-        else
-            songNameText.text = files[currentSongIndex].Split(" - ")[1].TrimEnd(".ogg");
+        songNameText.text = files[currentSongIndex].Split(" - ")[1].TrimEnd(".ogg");
         maxTimeText.text = $"{Mathf.FloorToInt(audioSource.clip.length / 60f).ToString()}:{(((int)(audioSource.clip.length % 60)).ToString().Length == 1 ? ("0" + (int)(audioSource.clip.length % 60)) : (int)(audioSource.clip.length % 60))}";
         audioSource.Play();
     }
@@ -140,10 +147,7 @@ public class SongManager : MonoBehaviour
                 //Get all the TMP_Texts
                 TMP_Text[] texts = song.GetComponentsInChildren<TMP_Text>();
                 //Set the song name
-                if (Regex.Matches(files[currentSongIndex], " - ").Count == 2)
-                    texts[0].text = files[i].Split(" - ")[1] + files[i].Split(" - ")[2].TrimEnd(".ogg");
-                else
-                    texts[0].text = files[i].Split(" - ")[1].TrimEnd(".ogg");
+                texts[0].text = files[i].Split(" - ")[1].TrimEnd(".ogg");
                 //Set the artist name
                 texts[1].text = files[i].Split(" - ")[0].Remove(0, files[i].Split(" - ")[0].LastIndexOf('\\') + 1);
                 //Set the song duration
