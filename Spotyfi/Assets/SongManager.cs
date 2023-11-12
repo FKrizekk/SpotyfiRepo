@@ -64,7 +64,7 @@ public class SongManager : MonoBehaviour
 
     public void UpdateProgress()
     {
-        if (Input.GetMouseButton(0) && Input.mousePosition.x < 1400)
+        if (Input.GetMouseButton(0) && Input.mousePosition.x < 1000)
             audioSource.time = progressBar.value * audioSource.clip.length;
     }
 
@@ -143,7 +143,7 @@ public class SongManager : MonoBehaviour
                 //Add song to clips list
                 clips.Add(new WWW(files[i]).GetAudioClip(false, true, AudioType.OGGVORBIS));
                 //Instantiate song widget prefab with a position offset on the y axis directly proportional to the value of i and store it in the "song" variable
-                var song = Instantiate(songPrefab, new Vector3(960, 0 - i * 120, 0), Quaternion.identity, scrollViewContent);
+                var song = Instantiate(songPrefab, new Vector3(640, 0 - i * 70, 0), Quaternion.identity, scrollViewContent);
                 //Get all the TMP_Texts
                 TMP_Text[] texts = song.GetComponentsInChildren<TMP_Text>();
                 //Set the song name
@@ -157,7 +157,7 @@ public class SongManager : MonoBehaviour
             }
         }
         //Set the y position of the content/song widgets parent to 2600 so it starts with the songs on the screen
-        scrollViewContent.position = new Vector3(960, 2600, 0);
+        scrollViewContent.position = new Vector3(640, 2600, 0);
 
         UpdateTrack();
     }
